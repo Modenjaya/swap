@@ -1,4 +1,4 @@
-from solana.keypair import Keypair
+from solders.keypair import Keypair
 from solana_client import SolanaClient
 from jupiter_client import JupiterClient
 
