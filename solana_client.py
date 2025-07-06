@@ -1,6 +1,6 @@
 import asyncio
 from solana.rpc.async_api import AsyncClient
-from solana.keypair import Keypair
+from solders.keypair import Keypair
 import base58
 import json
 
