@@ -76,10 +76,12 @@ class TelegramBot:
             await update.message.reply_text("Gagal melakukan buy order.")
 
     async def run(self):
-        await self.app.initialize()
-        await self.app.start()
-        print("Bot started...")
-        await self.app.updater.start_polling()
-        await self.app.updater.idle()
-        await self.solana_client.close()
-        await self.jupiter_client.close()
+    await self.app.initialize()
+    await self.app.start()
+    print("Bot started...")
+    await self.app.run_polling()  # Ini sudah blocking dan mengelola lifecycle
+    # atau jika ingin manual:
+    # await self.app.updater.start_polling()
+    # await self.app.idle()  # Ganti idle dari updater ke app
+    await self.app.stop()
+
