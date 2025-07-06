@@ -1,6 +1,10 @@
 import asyncio
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, CallbackQueryHandler
+from telegram import Update
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
+)
 from database import DatabaseManager
 from solana_client import SolanaClient
 from jupiter_client import JupiterClient
@@ -23,7 +27,6 @@ class TelegramBot:
         self.app.add_handler(CommandHandler("wallet", self.wallet))
         self.app.add_handler(CommandHandler("balance", self.balance))
         self.app.add_handler(CommandHandler("buy", self.buy))
-        # Tambah handler lain sesuai kebutuhan
 
     async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         user = update.effective_user
@@ -76,12 +79,10 @@ class TelegramBot:
             await update.message.reply_text("Gagal melakukan buy order.")
 
     async def run(self):
-    await self.app.initialize()
-    await self.app.start()
-    print("Bot started...")
-    await self.app.run_polling()  # Ini sudah blocking dan mengelola lifecycle
-    # atau jika ingin manual:
-    # await self.app.updater.start_polling()
-    # await self.app.idle()  # Ganti idle dari updater ke app
-    await self.app.stop()
-
+        await self.app.initialize()
+        await self.app.start()
+        print("Bot started...")
+        await self.app.idle()
+        await self.app.stop()
+        await self.jupiter_client.close()
+        await self.solana_client.close()
